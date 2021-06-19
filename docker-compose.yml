@@ -1,0 +1,14 @@
+version: "3"
+services: 
+    requests_to_slack:
+        image: requests_to_slack
+        container_name: requests_to_slack
+        build: ./requests_to_slack
+        volumes: 
+            - ./requests_to_slack:/work
+        tty: true
+    splash:
+        image: scrapinghub/splash
+        container_name: splash
+        ports: 
+            - "8050:8050"
