@@ -13,4 +13,8 @@ def return_rended_page():
         f.write(rg.content)
 
 def extract_urls():
+    # render.htmlをrequestsで読み込んで該当URLを抽出する。
     return 0
+
+def to_slack():
+    # slackへ通知する
