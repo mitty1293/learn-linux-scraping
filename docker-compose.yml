@@ -6,9 +6,16 @@ services:
         build: ./requests_to_slack
         volumes: 
             - ./requests_to_slack:/work
+        networks: 
+            - learn-linux-scraping_net
         tty: true
     splash:
         image: scrapinghub/splash
         container_name: splash
         ports: 
             - "8050:8050"
+        networks: 
+            - learn-linux-scraping_net
+networks: 
+    learn-linux-scraping_net:
+        driver: bridge
