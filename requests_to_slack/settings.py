@@ -1,0 +1,1 @@
+WEBHOOK_URL = "https://hooks.slack.com/services/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"

@@ -1,5 +1,5 @@
 import requests, json
-import config
+import settings
 
 def return_rended_page():
     url = 'http://www.usupi.org/sysad/backno.html'
@@ -18,8 +18,7 @@ def extract_urls():
     pass
 
 def to_slack():
-    # slackへ通知する
-    requests.post(WEBHOOK_URL,
+    requests.post(settings.WEBHOOK_URL,
                 data = json.dumps({
                     'text': u'from py'
                 })
