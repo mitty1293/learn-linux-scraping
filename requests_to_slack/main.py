@@ -18,3 +18,11 @@ def extract_urls():
 
 def to_slack():
     # slackへ通知する
+
+def main():
+    return_rended_page()
+    extract_urls()
+    to_slack()
+
+if __name__ == '__main__':
+    main()
