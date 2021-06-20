@@ -1,4 +1,4 @@
-import requests
+import requests, json
 import config
 
 def return_rended_page():
@@ -19,9 +19,11 @@ def extract_urls():
 
 def to_slack():
     # slackへ通知する
-    requests.
-    
-    pass
+    requests.post(WEBHOOK_URL,
+                data = json.dumps({
+                    'text': u'from py'
+                })
+    )
 
 def main():
     return_rended_page()
