@@ -12,8 +12,6 @@ services:
     splash:
         image: scrapinghub/splash
         container_name: splash
-        ports: 
-            - "8050:8050"
         networks: 
             - learn-linux-scraping_net
 networks: 
