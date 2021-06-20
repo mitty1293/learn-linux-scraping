@@ -14,10 +14,11 @@ def return_rended_page():
 
 def extract_urls():
     # render.htmlをbeautiful soupみたいな解析ツールで読み込んで該当URLを抽出する。
-    return 0
+    pass
 
 def to_slack():
     # slackへ通知する
+    pass
 
 def main():
     return_rended_page()
