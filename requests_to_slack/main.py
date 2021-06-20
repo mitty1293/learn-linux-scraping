@@ -18,6 +18,7 @@ def extract_urls():
 
 def to_slack():
     # slackへ通知する
+    # https://hooks.slack.com/services/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
     pass
 
 def main():
