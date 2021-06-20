@@ -3,9 +3,9 @@ services:
     requests_to_slack:
         image: requests_to_slack
         container_name: requests_to_slack
-        build: ./requests_to_slack
+        build: .
         volumes: 
-            - ./requests_to_slack:/work
+            - ./requests_to_slack:/usr/src/
         networks: 
             - learn-linux-scraping_net
         tty: true

@@ -1,6 +1,5 @@
 FROM python:3.9.0-slim-buster
 RUN cp /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
-COPY main.py /work/
 RUN apt-get update && \
     apt-get install -y --no-install-recommends cron && \
     pip3 install --upgrade pip && \
