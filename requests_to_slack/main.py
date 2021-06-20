@@ -1,4 +1,5 @@
 import requests
+import config
 
 def return_rended_page():
     url = 'http://www.usupi.org/sysad/backno.html'
@@ -18,6 +19,7 @@ def extract_urls():
 
 def to_slack():
     # slackへ通知する
+    requests.
     
     pass
 
