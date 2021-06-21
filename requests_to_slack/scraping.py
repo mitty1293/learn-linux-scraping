@@ -42,6 +42,8 @@ def extract_urls(rended_text):
     parser.close()
     # 完成後以下のprint文は消す
     print(len(parser.backno_dict))
+    # 以下はpost_to_slackメソッドに移す
     volno, title = random.choice(list(parser.backno_dict.items()))
     # 完成後以下のprint文は消す
     print(str(volno) + "," + title)
+    return parser.backno_dict
