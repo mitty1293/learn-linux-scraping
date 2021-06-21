@@ -8,9 +8,11 @@ def return_rended_page(target_url, splash_api):
                         'url': target_url,
                         'wait': 5
                     })
-    print(rg.text)
     with open('rended.html', 'wb') as f:
         f.write(rg.content)
+    # 完成後以下のprint文は消す
+    print(rg.text)
+    return rg.text
 
 # class MyHTMLParser(HTMLParser):
 #     def handle_starttag(self, tag: str, attrs: List[Tuple[str, Optional[str]]]) -> None:
@@ -20,7 +22,7 @@ def return_rended_page(target_url, splash_api):
 #     def handle_data(self, data: str) -> None:
 #         return super().handle_data(data)
 
-def extract_urls():
+def extract_urls(rended_text):
     # render.htmlをbeautiful soupみたいな解析ツールで読み込んで該当URLを抽出する。
     # parser = MyHTMLParser()
     pass
