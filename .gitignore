@@ -1,3 +1,4 @@
 settings.py
 rended.html
 __pycache__/
+cron.log
