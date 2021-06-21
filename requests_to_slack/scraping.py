@@ -1,5 +1,5 @@
 from html import parser
-import requests
+import requests, random
 from html.parser import HTMLParser
 
 def return_rended_page(target_url, splash_api):
@@ -14,15 +14,34 @@ def return_rended_page(target_url, splash_api):
     print(rg.text)
     return rg.text
 
-# class MyHTMLParser(HTMLParser):
-#     def handle_starttag(self, tag: str, attrs: List[Tuple[str, Optional[str]]]) -> None:
-#         return super().handle_starttag(tag, attrs)
-#     def handle_endtag(self, tag: str) -> None:
-#         return super().handle_endtag(tag)
-#     def handle_data(self, data: str) -> None:
-#         return super().handle_data(data)
+class MyHTMLParser(HTMLParser):
+    # [0-9]{3}.html
+    def __init__(self):
+        super().__init__()
+        self.backno = False
+        self.backno_a = False
+        self.backno_dict = {}
+    def handle_starttag(self, tag, attrs):
+        attrs = dict(attrs)
+        if tag == "h2" and "id" in attrs and attrs["id"] == "バックナンバー日付順":
+            self.backno = True
+        if self.backno and tag == "a":
+            self.backno_a = True
+    def handle_endtag(self, tag):
+        if self.backno and tag == "ul":
+            self.backno = False
+    def handle_data(self, data):
+        if self.backno_a:
+            self.backno_dict[int(data[4:7])] = data
+            self.backno_a = False
 
 def extract_urls(rended_text):
     # render.htmlをbeautiful soupみたいな解析ツールで読み込んで該当URLを抽出する。
-    # parser = MyHTMLParser()
-    pass
+    parser = MyHTMLParser()
+    parser.feed(rended_text)
+    parser.close()
+    # 完成後以下のprint文は消す
+    print(len(parser.backno_dict))
+    volno, title = random.choice(list(parser.backno_dict.items()))
+    # 完成後以下のprint文は消す
+    print(str(volno) + "," + title)
