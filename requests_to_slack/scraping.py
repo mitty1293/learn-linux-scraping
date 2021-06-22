@@ -20,7 +20,7 @@ class MyHTMLParser(HTMLParser):
         super().__init__()
         self.backno = False
         self.backno_a = False
-        self.backno_dict = {}
+        self.backno_list = []
     def handle_starttag(self, tag, attrs):
         attrs = dict(attrs)
         if tag == "h2" and "id" in attrs and attrs["id"] == "バックナンバー日付順":
@@ -32,7 +32,8 @@ class MyHTMLParser(HTMLParser):
             self.backno = False
     def handle_data(self, data):
         if self.backno_a:
-            self.backno_dict[int(data[4:7])] = data
+            # self.backno_list[int(data[4:7])] = data
+            self.backno_list.append(data)
             self.backno_a = False
 
 def extract_urls(rended_text):
@@ -41,9 +42,12 @@ def extract_urls(rended_text):
     parser.feed(rended_text)
     parser.close()
     # 完成後以下のprint文は消す
-    print(len(parser.backno_dict))
-    # 以下はpost_to_slackメソッドに移す
-    volno, title = random.choice(list(parser.backno_dict.items()))
+    print(len(parser.backno_list))
+    todays_index = random.randrange(len(parser.backno_list))
+    next_index = todays_index - 1
+    previous_index = todays_index + 1
+    todays_title = parser.backno_list[todays_index]
+    todays_url = "http://www.usupi.org/sysad/" + todays_title[4:7] + ".html"
     # 完成後以下のprint文は消す
-    print(str(volno) + "," + title)
-    return parser.backno_dict
+    print(todays_title)
+    return parser.backno_list
