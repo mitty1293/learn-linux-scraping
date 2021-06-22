@@ -3,18 +3,18 @@ import requests, random
 from html.parser import HTMLParser
 
 def return_rended_page(target_url, splash_api):
-    rg = requests.get(splash_api,
-                    params={
-                        'url': target_url,
-                        'wait': 10,
-                        'timeout': 60
-                    })
-    with open('rended.html', 'wb') as f:
-        f.write(rg.content)
-    # 完成後以下のprint文は消す
-    print(rg.text)
-    return rg.text
-
+    try:
+        rg = requests.get(splash_api,
+                        params={
+                            'url': target_url,
+                            'wait': 10,
+                            'timeout': 60
+                        })
+        rg.raise_for_status()
+        return rg.text
+    except requests.exceptions.RequestException as err:
+        return "err"
+    
 class MyHTMLParser(HTMLParser):
     def __init__(self):
         super().__init__()
@@ -63,6 +63,4 @@ def extract_urls(rended_text, target_url):
         next_title = "No topic. Link to main page."
         next_url = target_url
     topic_dict["next"] = {"title":next_title, "url":next_url}
-    # 完成後以下のprint文は消す
-    print(topic_dict)
     return topic_dict
