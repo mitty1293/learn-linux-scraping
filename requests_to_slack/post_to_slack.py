@@ -1,7 +1,7 @@
 import requests, json
 import settings
 
-def post_to_slack():
+def post_to_slack(**topic_dict):
     requests.post(settings.WEBHOOK_URL,
                 data = json.dumps(
                     {

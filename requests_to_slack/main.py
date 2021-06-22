@@ -5,7 +5,7 @@ def main():
     SPLASH_API = 'http://splash:8050/render.html'
     rended_text = scraping.return_rended_page(TARGET_URL, SPLASH_API)
     topic_dict = scraping.extract_urls(rended_text, TARGET_URL)
-    post_to_slack.post_to_slack()
+    post_to_slack.post_to_slack(**topic_dict)
 
 if __name__ == '__main__':
     main()
