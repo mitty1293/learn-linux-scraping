@@ -10,21 +10,21 @@ def post_to_slack(**topic_dict):
                                 "type": "section",
                                 "text": {
                                     "type": "mrkdwn",
-                                    "text": "Today's topic:\n*<http://www.usupi.org/sysad/294.html|Vol.294 - 共有ライブラリをざっくり理解する (レベル:中級)>*"
+                                    "text": f"Today's topic:\n*<{topic_dict['todays']['url']}|{topic_dict['todays']['title']}>*"
                                 }
                             },
                             {
                                 "type": "section",
                                 "text": {
                                     "type": "mrkdwn",
-                                    "text": "Previous:\n*<http://www.usupi.org/sysad/294.html|Vol.294 - 共有ライブラリをざっくり理解する (レベル:中級)>*"
+                                    "text": f"Previous:\n*<{topic_dict['previous']['url']}|{topic_dict['previous']['title']}>*"
                                 }
                             },
                             {
                                 "type": "section",
                                 "text": {
                                     "type": "mrkdwn",
-                                    "text": "Next:\n*<http://www.usupi.org/sysad/294.html|Vol.294 - 共有ライブラリをざっくり理解する (レベル:中級)>*"
+                                    "text": f"Next:\n*<{topic_dict['next']['url']}|{topic_dict['next']['title']}>*"
                                 }
                             }
                         ]

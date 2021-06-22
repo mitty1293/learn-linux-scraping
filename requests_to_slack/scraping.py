@@ -6,7 +6,8 @@ def return_rended_page(target_url, splash_api):
     rg = requests.get(splash_api,
                     params={
                         'url': target_url,
-                        'wait': 10
+                        'wait': 10,
+                        'timeout': 60
                     })
     with open('rended.html', 'wb') as f:
         f.write(rg.content)
