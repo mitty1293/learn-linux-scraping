@@ -15,7 +15,6 @@ def return_rended_page(target_url, splash_api):
     return rg.text
 
 class MyHTMLParser(HTMLParser):
-    # [0-9]{3}.html
     def __init__(self):
         super().__init__()
         self.backno = False
@@ -32,22 +31,37 @@ class MyHTMLParser(HTMLParser):
             self.backno = False
     def handle_data(self, data):
         if self.backno_a:
-            # self.backno_list[int(data[4:7])] = data
             self.backno_list.append(data)
             self.backno_a = False
 
-def extract_urls(rended_text):
-    # render.htmlをbeautiful soupみたいな解析ツールで読み込んで該当URLを抽出する。
+def extract_urls(rended_text, target_url):
+    topic_dict = {}
+
     parser = MyHTMLParser()
     parser.feed(rended_text)
     parser.close()
-    # 完成後以下のprint文は消す
-    print(len(parser.backno_list))
-    todays_index = random.randrange(len(parser.backno_list))
-    next_index = todays_index - 1
-    previous_index = todays_index + 1
-    todays_title = parser.backno_list[todays_index]
+
+    # todays process
+    todays_title = random.choice(parser.backno_list)
+    todays_index = parser.backno_list.index(todays_title)
     todays_url = "http://www.usupi.org/sysad/" + todays_title[4:7] + ".html"
+    topic_dict["todays"] = {"title":todays_title, "url":todays_url}
+    # previous process
+    try:
+        previous_title = parser.backno_list[todays_index+1]
+        previous_url = "http://www.usupi.org/sysad/" + previous_title[4:7] + ".html"
+    except IndexError:
+        previous_title = "No topic. Link to main page."
+        previous_url = target_url
+    topic_dict["previous"] = {"title":previous_title, "url":previous_url}
+    # next process
+    try:
+        next_title = parser.backno_list[todays_index-1]
+        next_url = "http://www.usupi.org/sysad/" + next_title[4:7] + ".html"
+    except IndexError:
+        next_title = "No topic. Link to main page."
+        next_url = target_url
+    topic_dict["next"] = {"title":next_title, "url":next_url}
     # 完成後以下のprint文は消す
-    print(todays_title)
-    return parser.backno_list
+    print(topic_dict)
+    return topic_dict
