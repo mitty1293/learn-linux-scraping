@@ -1,20 +1,29 @@
 from html import parser
 import requests, random
+from urllib3.util import Retry
+from requests.adapters import HTTPAdapter
 from html.parser import HTMLParser
 
 def return_rended_page(target_url, splash_api):
+    session = requests.Session()
+    retries = Retry(total=5, # retry回数
+                    backoff_factor=1, # sleep時間
+                    status_forcelist=[500,502,503,504]) # timeout以外でretryするstatus
+    session.mount('http://', HTTPAdapter(max_retries=retries))
+    session.mount('https://', HTTPAdapter(max_retries=retries))
     try:
-        rg = requests.get(splash_api,
+        rg = session.get(splash_api,
                         params={
                             'url': target_url,
                             'wait': 10,
                             'timeout': 60
                         })
-        rg.raise_for_status()
-        return rg.text
     except requests.exceptions.RequestException as err:
+        # print(err)
         return "err"
-    
+    else:
+        return rg.text
+
 class MyHTMLParser(HTMLParser):
     def __init__(self):
         super().__init__()
@@ -36,6 +45,12 @@ class MyHTMLParser(HTMLParser):
             self.backno_a = False
 
 def extract_urls(rended_text, target_url):
+    # If scraping fails
+    if rended_text == "err":
+        failed_dict = {"title":"Scraping failed. Access to the main page.", "url":target_url}
+        topic_dict = {"todays":failed_dict, "previous":failed_dict, "next":failed_dict}
+        return topic_dict
+    
     topic_dict = {}
 
     parser = MyHTMLParser()
@@ -63,4 +78,5 @@ def extract_urls(rended_text, target_url):
         next_title = "No topic. Link to main page."
         next_url = target_url
     topic_dict["next"] = {"title":next_title, "url":next_url}
+
     return topic_dict
